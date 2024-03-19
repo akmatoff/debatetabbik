@@ -21,5 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^auth/', include('drf_social_oauth2.urls', namespace='drf')),
     path('api/', include('users.urls')),
-    # path('api/', include('clubs.urls'))
+    path('api/', include('clubs.urls'))
 ]
