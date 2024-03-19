@@ -1,12 +1,11 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import generics
 from .models import Club
 from .serializers import ClubSerializer
 
-@api_view(['GET'])
-def get_clubs(request):
-    clubs = Club.objects.all()
-    serializer = ClubSerializer(clubs, many=True)
+class ClubsList(generics.ListCreateAPIView):
+    queryset = Club.objects.all()
+    serializer_class = ClubSerializer
 
-    return Response(serializer.data)
-    
+class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Club.objects.all()
+    serializer_class = ClubSerializer
