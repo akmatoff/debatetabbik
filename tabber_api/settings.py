@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'https://tabbik.codiumdev.com']
 
 CSRF_TRUSTED_ORIGINS = ['http://localhost', 'https://tabbik.codiumdev.com']    
 
@@ -180,3 +180,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.profile',
 ]
 
+USE_X_FORWARDED_HOST = True
+USE_X_FORWARDED_PORT = True
