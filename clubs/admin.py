@@ -3,6 +3,6 @@ from .models import Club
 
 # Register your models here.
 class ClubsAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('title', 'icon', 'rating')
 
 admin.site.register(Club, ClubsAdmin)
