@@ -10,5 +10,11 @@ class UserSerializer(serializers.ModelSerializer):
             "id": instance.id,
             "username": instance.username,
             "email": instance.email,
-            "club": instance.club_id
+            "club": {
+                "id": instance.club.id,
+                "title": instance.club.title,
+                "description": instance.club.description,
+                "icon": str(instance.club.icon),
+                "club_leader_id": instance.club.club_leader_id
+            }
         }

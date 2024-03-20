@@ -1,18 +1,24 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import generics, permissions
+from rest_framework.views import APIView, Response
+from .models import User
 from .serializers import UserSerializer
 
-@api_view(['POST'])
-def login(request):
-    return Response({})
+class UsersList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
 
-@api_view(['POST'])
-def signup(request):
-    serializer = UserSerializer(data=request.data)
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-    if serializer.is_valid():
-        serializer.save()
-        # user = User.objects.get(username=request.data['username'])
+class UserDetails(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
 
-    return Response({})
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserData(APIView):
+    def get(self, request):
+        user = request.user
+
+        serializer = UserSerializer(user)
+
+        return Response(serializer.data)
