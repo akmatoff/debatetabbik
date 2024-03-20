@@ -25,5 +25,5 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('api/', include('clubs.urls')),
     path('api-auth/', include('rest_framework.urls'))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
  
