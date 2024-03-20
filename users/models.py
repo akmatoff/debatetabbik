@@ -4,7 +4,7 @@ from clubs.models import Club
 
 class User(AbstractUser):
     club = models.ForeignKey(Club, related_name="club", on_delete=models.PROTECT, blank=True, null=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0)
 
     def __str__(self):
         return self.username
