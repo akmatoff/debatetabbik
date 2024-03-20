@@ -1,7 +1,7 @@
 from rest_framework import generics
 from rest_framework import permissions
-from .models import Club
-from .serializers import ClubSerializer
+from .models import Club, ClubJoinRequest
+from .serializers import ClubSerializer, ClubJoinRequestSerializer
 
 class ClubsList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -14,3 +14,15 @@ class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
+
+class ClubJoinRequestsList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    queryset = ClubJoinRequest.objects.all()
+    serializer_class = ClubJoinRequestSerializer
+
+class ClubJoinRequestsDetails(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    queryset = ClubJoinRequest.objects.all()
+    serializer_class = ClubJoinRequestSerializer

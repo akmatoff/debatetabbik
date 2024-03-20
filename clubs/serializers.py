@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Club
+from .models import Club, ClubJoinRequest
 from users.serializers import UserSerializer
 
 class ClubSerializer(serializers.ModelSerializer):
@@ -8,4 +8,9 @@ class ClubSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Club
-        fields = ['id', 'title', 'description', 'icon', 'club_leader', 'club_leader_id']
+        fields = ['id', 'title', 'description', 'icon', 'club_leader', 'club_leader_id', 'is_approved', 'created', 'updated']
+
+class ClubJoinRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClubJoinRequest
+        fields = "__all__"
