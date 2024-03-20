@@ -9,3 +9,8 @@ class Club(models.Model):
 
     def __str__(self):
         return self.title
+    
+class ClubJoinRequest(models.Model):
+    club = models.ForeignKey(Club, on_delete=models.PROTECT)
+    user = models.ForeignKey('users.User', on_delete=models.PROTECT)
+    is_approved = models.BooleanField(default=False)
