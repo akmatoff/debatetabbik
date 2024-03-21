@@ -21,7 +21,7 @@ class ClubJoinRequestsList(generics.ListCreateAPIView):
     queryset = ClubJoinRequest.objects.all()
     serializer_class = ClubJoinRequestSerializer
 
-class ClubJoinRequestsDetails(generics.ListCreateAPIView):
+class ClubJoinRequestsDetails(generics.RetrieveDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     queryset = ClubJoinRequest.objects.all()
