@@ -88,16 +88,16 @@ def approve_club_join_request(request, pk):
     user = request.user
     join_request = ClubJoinRequest.objects.get(pk=pk)
 
-    if user.id != join_request.club.club_leader:
+    if user.id != join_request.club.club_leader.id:
         return Response({"error": "You don't have permissions to approve the request."}, status=status.HTTP_403_FORBIDDEN)
 
-    join_request.is_approved = True
-    join_request.save()
-
-    join_request_user = User.objects.get(pk=join_request.user)
+    join_request_user = User.objects.get(pk=join_request.user.id)
 
     join_request_user.club = join_request.club
     join_request_user.save()
+
+    join_request.is_approved = True
+    join_request.save()
 
     serializer = ClubJoinRequestSerializer(join_request)
 
