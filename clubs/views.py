@@ -1,5 +1,5 @@
-from rest_framework import generics
-from rest_framework import permissions
+from rest_framework import generics, permissions, status
+from rest_framework.views import Response
 from .models import Club, ClubJoinRequest
 from .serializers import ClubSerializer, ClubJoinRequestSerializer
 
@@ -14,6 +14,15 @@ class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
+
+    def delete(self, request, *args, **kwargs):
+        instance = self.get_object()
+        user = request.user
+
+        if instance.club_leader_id == user.id:
+            return super().delete(request, *args, **kwargs)
+        
+        return Response({ "message": "No permission to delete." }, status=status.HTTP_403_FORBIDDEN)
 
 class ClubJoinRequestsList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]

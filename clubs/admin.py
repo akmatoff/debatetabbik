@@ -3,7 +3,7 @@ from .models import Club, ClubJoinRequest
 
 # Register your models here.
 class ClubsAdmin(admin.ModelAdmin):
-    list_display = ('title', 'icon', 'rating')
+    list_display = ('title', 'icon', 'rating', 'is_approved')
 
 class ClubJoinRequestAdmin(admin.ModelAdmin):
     list_display = ('user', 'club', 'is_approved')
