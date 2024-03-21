@@ -15,11 +15,15 @@ class ClubsList(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = Club.objects.all()
         is_approved = parse_bool_query_param(self.request.query_params.get('is_approved'))
+        all_clubs = parse_bool_query_param(self.request.query_params.get('all_clubs'))
 
         queryset = queryset.filter(is_approved=True)
 
         if is_approved is not None:
-            queryset = queryset.filter(is_approved=is_approved)
+            queryset = Club.objects.all().filter(is_approved=is_approved)
+
+        if all_clubs:
+            queryset = Club.objects.all()
 
         return queryset
 
