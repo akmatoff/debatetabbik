@@ -32,7 +32,8 @@ ALLOWED_HOSTS = ["*", "https://tabbik.codiumdev.com"]
 
 CSRF_TRUSTED_ORIGINS = ["http://localhost", "https://tabbik.codiumdev.com"]
 
-CORS_ALLOWED_ORIGINS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 INSTALLED_APPS = [
