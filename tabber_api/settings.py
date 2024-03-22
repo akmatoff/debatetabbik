@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "https://tabbik.codiumdev.com"]
+ALLOWED_HOSTS = ["*", "localhost", "tabbik.codiumdev.com"]
 
 CORS_ORIGIN_ALLOW_ALL = True
 
