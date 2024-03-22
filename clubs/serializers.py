@@ -14,6 +14,7 @@ class ClubSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "icon",
+            "rating",
             "club_leader",
             "club_leader_id",
             "is_approved",
