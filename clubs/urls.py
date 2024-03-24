@@ -5,6 +5,7 @@ from .views import (
     ClubJoinRequestsList,
     ClubJoinRequestsDetails,
     approve_club_join_request,
+    join_club,
     request_to_join_club,
     get_club_members,
 )
@@ -18,6 +19,7 @@ urlpatterns = [
         name="Request to join the club",
     ),
     path("clubs/<int:pk>/get_members", get_club_members, name="Get club members"),
+    path("clubs/<int:pk>/join_club", join_club, name="Join club"),
     path(
         "club-join-requests/", ClubJoinRequestsList.as_view(), name="Club join requests"
     ),

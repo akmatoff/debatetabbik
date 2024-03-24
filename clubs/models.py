@@ -20,7 +20,9 @@ class Club(models.Model):
 
 class ClubJoinRequest(models.Model):
     club = models.ForeignKey(Club, on_delete=models.PROTECT)
-    user = models.ForeignKey("users.User", on_delete=models.PROTECT)
+    user = models.ForeignKey(
+        "users.User", related_name="club_join_requests", on_delete=models.PROTECT
+    )
     is_approved = models.BooleanField(default=False)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)

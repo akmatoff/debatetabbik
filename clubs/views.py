@@ -15,6 +15,7 @@ class ClubsList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         queryset = Club.objects.all()
+
         is_approved = parse_bool_query_param(
             self.request.query_params.get("is_approved")
         )
@@ -29,6 +30,13 @@ class ClubsList(generics.ListCreateAPIView):
             queryset = Club.objects.all()
 
         return queryset
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+
+        context["user"] = self.request.user
+
+        return context
 
 
 class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
@@ -89,10 +97,9 @@ def request_to_join_club(request, pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     except Exception as e:
-        print(e)
         return Response(
             {"error": "Failed to create request."},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
 
@@ -108,11 +115,6 @@ def approve_club_join_request(request, pk):
             {"error": "You don't have permissions to approve the request."},
             status=status.HTTP_403_FORBIDDEN,
         )
-
-    join_request_user = User.objects.get(pk=join_request.user.id)
-
-    join_request_user.club = join_request.club
-    join_request_user.save()
 
     join_request.is_approved = True
     join_request.save()
@@ -136,5 +138,30 @@ def get_club_members(request, pk):
     except:
         return Response(
             {"error": "Could not get club members."},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+
+# @pk - club id
+@api_view(["POST"])
+@permission_classes([permissions.IsAuthenticated])
+def join_club(request, pk):
+    user = request.user
+
+    join_request = ClubJoinRequest.objects.get(user=user.id, club=pk)
+
+    if join_request is None:
+        return Response(
+            {"error": "Join request not found"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if join_request.is_approved:
+        join_request_user = User.objects.get(pk=user.id)
+
+        join_request_user.club = join_request.club
+        join_request_user.save()
+    else:
+        return Response(
+            {"error": "Join request is not approved."},
+            status=status.HTTP_400_BAD_REQUEST,
         )
