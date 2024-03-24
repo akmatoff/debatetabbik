@@ -160,6 +160,8 @@ def join_club(request, pk):
 
         join_request_user.club = join_request.club
         join_request_user.save()
+
+        return Response({"message": "Join request approved successfully"})
     else:
         return Response(
             {"error": "Join request is not approved."},

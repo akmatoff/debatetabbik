@@ -12,9 +12,10 @@ class ClubSerializer(serializers.ModelSerializer):
 
         user = self.context["user"]
 
-        user_join_requests = user.club_join_requests.all().filter(club=instance.id)
+        user_join_request = user.club_join_requests.get(club=instance.id)
 
-        ret["is_join_requested"] = len(user_join_requests) > 0
+        ret["is_join_requested"] = user_join_request is not None
+        ret["is_join_request_approved"] = user_join_request.is_approved
         ret["members_count"] = len(instance.users.all())
 
         return ret
