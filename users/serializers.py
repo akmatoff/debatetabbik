@@ -8,10 +8,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "username", "first_name", "last_name", "club_id", "email"]
 
     def to_representation(self, instance):
-        club = None
+        club_id = None
 
         if instance.club_id:
-            club = instance.club_id
+            club_id = instance.club_id
 
         return {
             "id": instance.id,
@@ -19,5 +19,5 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name": instance.first_name,
             "last_name": instance.last_name,
             "email": instance.email,
-            "club_id": club,
+            "club_id": club_id,
         }

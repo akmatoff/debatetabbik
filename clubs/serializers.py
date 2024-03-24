@@ -7,6 +7,13 @@ class ClubSerializer(serializers.ModelSerializer):
     club_leader = UserSerializer(read_only=True)
     club_leader_id = serializers.IntegerField(write_only=True)
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+
+        ret["members_count"] = len(instance.users.all())
+
+        return ret
+
     class Meta:
         model = Club
         fields = [

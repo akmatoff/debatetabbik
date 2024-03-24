@@ -41,7 +41,7 @@ class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         user = request.user
 
-        if instance.club_leader_id == user.id:
+        if instance.club_leader.id == user.id:
             return super().update(request, *args, **kwargs)
 
         return Response(
@@ -52,7 +52,7 @@ class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         user = request.user
 
-        if instance.club_leader_id == user.id:
+        if instance.club_leader.id == user.id:
             return super().delete(request, *args, **kwargs)
 
         return Response(
