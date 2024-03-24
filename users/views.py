@@ -35,6 +35,4 @@ class UserData(APIView):
 
                 return Response({"user": serializer.data, "club": club_serializer.data})
 
-            return Response({"user": serializer.data, "club": None})
-
-        return Response({"user": serializer.data})
+        return Response({"user": serializer.data, "club": None})
