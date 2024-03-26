@@ -31,7 +31,9 @@ class UserData(APIView):
 
             if club is not None:
 
-                club_serializer = ClubSerializer(club, context={"user": request.user})
+                club_serializer = ClubSerializer(
+                    club, context={"user": request.user, "request": request}
+                )
 
                 return Response({"user": serializer.data, "club": club_serializer.data})
 

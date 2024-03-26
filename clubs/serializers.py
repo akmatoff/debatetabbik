@@ -6,6 +6,15 @@ from users.serializers import UserSerializer
 class ClubSerializer(serializers.ModelSerializer):
     club_leader = UserSerializer(read_only=True)
     club_leader_id = serializers.IntegerField(write_only=True)
+    icon = serializers.SerializerMethodField()
+
+    def get_icon(self, instance):
+        print(self.context)
+        if self.context["request"] is not None:
+            request = self.context["request"]
+            return request.build_absolute_uri(instance.icon)
+
+        return instance.icon
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
