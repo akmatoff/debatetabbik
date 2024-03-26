@@ -45,6 +45,13 @@ class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+
+        context["user"] = self.request.user
+
+        return context
+
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         user = request.user
