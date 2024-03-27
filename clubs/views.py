@@ -150,6 +150,22 @@ def get_club_members(request, pk):
 
 
 # @pk - club id
+@api_view(["GET"])
+@permission_classes([permissions.IsAuthenticated])
+def get_join_requests(request, pk):
+    try:
+        join_requests = ClubJoinRequest.objects.all().filter(club=pk)
+        serializer = ClubJoinRequestSerializer(join_requests, many=True)
+
+        return Response(serializer.data)
+
+    except:
+        return Response(
+            {"error": "Could not get join requests"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+
+# @pk - club id
 @api_view(["POST"])
 @permission_classes([permissions.IsAuthenticated])
 def join_club(request, pk):
