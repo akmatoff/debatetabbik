@@ -10,9 +10,9 @@ class ClubSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         ret = super().to_representation(instance)
 
-        user = self.context["user"]
-
         try:
+            user = self.context["user"]
+
             user_join_request = user.club_join_requests.get(club=instance.id)
 
             ret["is_join_requested"] = user_join_request is not None
@@ -50,4 +50,4 @@ class ClubJoinRequestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClubJoinRequest
-        fields = ["club", "user", "is_approved", "created", "updated"]
+        fields = ["id", "club", "user", "is_approved", "created", "updated"]

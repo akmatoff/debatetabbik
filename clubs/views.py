@@ -129,7 +129,11 @@ def request_to_join_club(request, pk):
 @permission_classes([permissions.IsAuthenticated])
 def approve_club_join_request(request, pk):
     user = request.user
-    join_request = ClubJoinRequest.objects.get(pk=pk)
+
+    try:
+        join_request = ClubJoinRequest.objects.get(pk=pk)
+    except:
+        return Response({"error": "Could not find join request"})
 
     if user.id != join_request.club.club_leader.id:
         return Response(
