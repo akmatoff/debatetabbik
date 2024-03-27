@@ -45,6 +45,9 @@ class ClubSerializer(serializers.ModelSerializer):
 
 class ClubJoinRequestSerializer(serializers.ModelSerializer):
 
+    club = ClubSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = ClubJoinRequest
-        fields = "__all__"
+        fields = ["club", "user", "is_approved", "created", "updated"]

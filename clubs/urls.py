@@ -22,7 +22,9 @@ urlpatterns = [
     path("clubs/<int:pk>/get_members", get_club_members, name="Get club members"),
     path("clubs/<int:pk>/join_club", join_club, name="Join club"),
     path(
-        "clubs/<int:pk>/get_join_requests", get_join_requests, name="Club join requests"
+        "clubs/<int:pk>/get_join_requests",
+        get_join_requests,
+        name="Club join requests",
     ),
     path(
         "club-join-requests/", ClubJoinRequestsList.as_view(), name="Club join requests"

@@ -81,12 +81,26 @@ class ClubJoinRequestsList(generics.ListCreateAPIView):
     queryset = ClubJoinRequest.objects.all()
     serializer_class = ClubJoinRequestSerializer
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+
+        context["user"] = self.request.user
+
+        return context
+
 
 class ClubJoinRequestsDetails(generics.RetrieveDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     queryset = ClubJoinRequest.objects.all()
     serializer_class = ClubJoinRequestSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+
+        context["user"] = self.request.user
+
+        return context
 
 
 # @pk - club id
@@ -155,14 +169,18 @@ def get_club_members(request, pk):
 def get_join_requests(request, pk):
     try:
         join_requests = ClubJoinRequest.objects.all().filter(club=pk)
-        serializer = ClubJoinRequestSerializer(join_requests, many=True)
-
-        return Response(serializer.data)
-
     except:
         return Response(
-            {"error": "Could not get join requests"}, status=status.HTTP_400_BAD_REQUEST
+            {"message": "No join requests found"}, status=status.HTTP_404_NOT_FOUND
         )
+
+    serializer = ClubJoinRequestSerializer(
+        join_requests, many=True, context={"user": request.user}
+    )
+
+    print(serializer.data)
+
+    return Response(serializer.data)
 
 
 # @pk - club id
