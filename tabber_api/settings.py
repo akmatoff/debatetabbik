@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "social_django",
     "drf_social_oauth2",
     "rest_framework",
+    "drf_yasg",
     "users",
     "clubs",
 ]
@@ -186,3 +187,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 
 USE_X_FORWARDED_HOST = True
 USE_X_FORWARDED_PORT = True
+
+SWAGGER_SETTINGS = {"SECURITY_DEFINITIONS": {"Basic": {"type": "basic"}}}
