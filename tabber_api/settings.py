@@ -188,4 +188,8 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 USE_X_FORWARDED_HOST = True
 USE_X_FORWARDED_PORT = True
 
-SWAGGER_SETTINGS = {"SECURITY_DEFINITIONS": {"Basic": {"type": "basic"}}}
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"},
+    }
+}
