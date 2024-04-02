@@ -4,6 +4,7 @@ from clubs.models import Club
 
 
 class User(AbstractUser):
+    avatar = models.URLField(blank=True, null=True)
     club = models.ForeignKey(
         Club, related_name="users", on_delete=models.PROTECT, blank=True, null=True
     )
