@@ -46,16 +46,16 @@ class UserData(APIView):
 def google_auth_callback(request):
     strategy = load_strategy(request)
     user = request.user
-    if user.is_authenticated and user.social_auth.exists():
-        social = user.social_auth.get(provider="google-oauth2")
-        access_token = social.extra_data["access_token"]
 
-        userdata = strategy.backend.get_user_details(access_token)
-        user.avatar = userdata["picture"]
-        user.save()
+    social = user.social_auth.get(provider="google-oauth2")
+    access_token = social.extra_data["access_token"]
 
-        print("USERDATA")
-        print(userdata)
+    userdata = strategy.backend.get_user_details(access_token)
+    user.avatar = userdata["picture"]
+    user.save()
+
+    print("USERDATA")
+    print(userdata)
 
     return Response(
         {"message": "Authenticated successfully!"}, status=status.HTTP_200_OK
