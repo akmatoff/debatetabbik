@@ -54,9 +54,9 @@ def google_auth_callback(request):
         user.avatar = userdata["picture"]
         user.save()
 
+        print("USERDATA")
+        print(userdata)
+
     return Response(
         {"message": "Authenticated successfully!"}, status=status.HTTP_200_OK
     )
-
-
-from django.shortcuts import redirect

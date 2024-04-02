@@ -182,8 +182,6 @@ def get_join_requests(request, pk):
         join_requests, many=True, context={"user": request.user}
     )
 
-    print(serializer.data)
-
     return Response(serializer.data)
 
 
