@@ -6,6 +6,7 @@ from .serializers import UserSerializer
 from clubs.models import Club
 from clubs.serializers import ClubSerializer
 from social_django.utils import load_strategy
+import requests
 
 
 class UsersList(generics.ListAPIView):
@@ -44,13 +45,20 @@ class UserData(APIView):
 
 @api_view(["GET"])
 def google_auth_callback(request):
-    strategy = load_strategy(request)
     user = request.user
 
-    social = user.social_auth.get(provider="google-oauth2")
-    access_token = social.extra_data["access_token"]
+    print("USER")
+    print(user)
 
-    userdata = strategy.backend.get_user_details(access_token)
+    social = user.social_auth.get(provider="google-oauth2")
+
+    res = requests.get(
+        "https://www.googleapis.com/oauth2/v2/userinfo",
+        params={"access_token": social.extra_data["access_token"]},
+    )
+
+    userdata = res.json()
+
     user.avatar = userdata["picture"]
     user.save()
 
