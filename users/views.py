@@ -29,6 +29,26 @@ class UserData(APIView):
 
         serializer = UserSerializer(user)
 
+        user = request.user
+
+        print("USER")
+        print(user)
+
+        social = user.social_auth.get(provider="google-oauth2")
+
+        res = requests.get(
+            "https://www.googleapis.com/oauth2/v2/userinfo",
+            params={"access_token": social.extra_data["access_token"]},
+        )
+
+        userdata = res.json()
+
+        user.avatar = userdata["picture"]
+        user.save()
+
+        print("USERDATA")
+        print(userdata)
+
         if user.club is not None:
             club = Club.objects.get(pk=user.club.id)
 
