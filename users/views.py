@@ -42,7 +42,7 @@ class UserData(APIView):
         return Response({"user": serializer.data, "club": None})
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 def google_auth_callback(request):
     strategy = load_strategy(request)
     user = request.user
