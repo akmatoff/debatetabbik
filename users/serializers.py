@@ -5,7 +5,15 @@ from users.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "first_name", "last_name", "club_id", "email"]
+        fields = [
+            "id",
+            "username",
+            "avatar",
+            "first_name",
+            "last_name",
+            "club_id",
+            "email",
+        ]
 
     def to_representation(self, instance):
         club_id = None
@@ -16,6 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
         return {
             "id": instance.id,
             "username": instance.username,
+            "avatar": instance.avatar,
             "first_name": instance.first_name,
             "last_name": instance.last_name,
             "email": instance.email,
