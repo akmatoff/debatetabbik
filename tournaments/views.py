@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions, status
 from rest_framework.views import Response
+from rest_framework.decorators import api_view
 from .serializers import (
     TournamentJudgePointSerializer,
     TournamentJudgeSerializer,
@@ -29,6 +30,7 @@ from .models import (
 class TournamentsList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
 
 
@@ -42,6 +44,7 @@ class TournamentDetails(generics.RetrieveUpdateDestroyAPIView):
 class TournamentJoinRequestList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    queryset = TournamentJoinRequest.objects.all()
     serializer_class = TournamentJoinRequestSerializer
 
 
@@ -50,6 +53,15 @@ class TournamentJoinRequestDetails(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = TournamentJoinRequest.objects.all()
     serializer_class = TournamentJoinRequestSerializer
+
+
+@api_view(["GET"])
+def get_tournamnet_join_requests(request, tournament_id):
+
+    queryset = TournamentJoinRequest.objects.all().filter(tournament_id=tournament_id)
+    serializer = TournamentSerializer(queryset, many=True)
+
+    return Response(serializer.data)
 
 
 class TournamentTeamList(generics.ListCreateAPIView):
@@ -152,6 +164,6 @@ class TournamentRoomTeamsList(generics.ListCreateAPIView):
 class TournamentRoomTeamDetails(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    queryset = TournamentRoomTeam.objecst.all()
+    queryset = TournamentRoomTeam.objects.all()
 
     serializer_class = TournamentRoomTeamSerializer

@@ -72,7 +72,7 @@ class TournamentUserSpeakerPoint(models.Model):
     tournament = models.ForeignKey(
         Tournament, related_name="speaker_points", on_delete=models.PROTECT
     )
-    speaker_ponits = models.IntegerField()
+    speaker_points = models.IntegerField()
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
 
