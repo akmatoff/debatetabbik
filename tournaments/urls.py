@@ -16,7 +16,7 @@ urlpatterns = [
         "tournaments/<int:pk>", TournamentDetails.as_view(), name="Tournament Details"
     ),
     path(
-        "tournaments/<int:pk>/get_join_requests",
+        "tournaments/<int:tournament_id>/get_join_requests",
         get_tournamnet_join_requests,
         name="Tournament join requests list",
     ),
@@ -36,7 +36,7 @@ urlpatterns = [
     path(
         "tournament-teams/<int:pk>",
         TournamentTeamDetails.as_view(),
-        name="Tournaemnt team details",
+        name="Tournament team details",
     ),
     path(
         "tournament-judges/",
