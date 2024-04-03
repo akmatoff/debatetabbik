@@ -18,6 +18,7 @@ urlpatterns = (
         re_path(r"^auth/", include("drf_social_oauth2.urls", namespace="drf")),
         path("api/", include("users.urls")),
         path("api/", include("clubs.urls")),
+        path("api/", include("tournaments.urls")),
         path("api-auth/", include("rest_framework.urls")),
         path(
             "swagger/",
