@@ -33,6 +33,9 @@ class TournamentsList(generics.ListCreateAPIView):
     queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class TournamentDetails(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]

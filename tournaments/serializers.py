@@ -11,9 +11,14 @@ from .models import (
     TournamentRoom,
     TournamentRoomTeam,
 )
+from users.models import User
 
 
 class TournamentSerializer(serializers.ModelSerializer):
+    owner = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=User.objects.all()
+    )
+
     class Meta:
         model = Tournament
         fields = "__all__"
