@@ -10,6 +10,7 @@ from .models import (
     TournamentRoundPoint,
     TournamentRoom,
     TournamentRoomTeam,
+    UserTournamentTeamInvitation,
 )
 from users.models import User
 
@@ -75,4 +76,10 @@ class TournamentRoomSerializer(serializers.ModelSerializer):
 class TournamentRoomTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = TournamentRoomTeam
+        fields = "__all__"
+
+
+class UserTournamentTeamInvitationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserTournamentTeamInvitation
         fields = "__all__"

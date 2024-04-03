@@ -139,3 +139,13 @@ class TournamentRoomTeam(models.Model):
     position = models.CharField(max_length=60, choices=POSITION_CHOISES)
     created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
+
+
+class UserTournamentTeamInvitation(models.Model):
+    inviter = models.ForeignKey(
+        User, related_name="inviter_team_invitations", on_delete=models.PROTECT
+    )
+    receiver = models.ForeignKey(
+        User, related_name="receiver_team_invitations", on_delete=models.PROTECT
+    )
+    is_accepted = models.BooleanField(default=False)

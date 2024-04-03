@@ -12,6 +12,7 @@ from .serializers import (
     TournamentJoinRequestSerializer,
     TournamentTeamSerializer,
     TournamentUserSpeakerPointSerializer,
+    UserTournamentTeamInvitationSerializer,
 )
 from .models import (
     Tournament,
@@ -24,6 +25,7 @@ from .models import (
     TournamentRoundPoint,
     TournamentTeam,
     TournamentUserSpeakerPoint,
+    UserTournamentTeamInvitation,
 )
 
 
@@ -170,3 +172,19 @@ class TournamentRoomTeamDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = TournamentRoomTeam.objects.all()
 
     serializer_class = TournamentRoomTeamSerializer
+
+
+class UserTournamentTeamInvitationList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    queryset = UserTournamentTeamInvitation.objects.all()
+
+    serializer_class = UserTournamentTeamInvitationSerializer
+
+
+class UserTournamentTeamInvitationDetails(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    queryset = UserTournamentTeamInvitation.objects.all()
+
+    serializer_class = UserTournamentTeamInvitationSerializer

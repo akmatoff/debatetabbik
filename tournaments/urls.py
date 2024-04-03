@@ -7,6 +7,7 @@ from .views import (
     TournamentTeamDetails,
     TournamentTeamList,
     TournamentsList,
+    UserTournamentTeamInvitationList,
     get_tournamnet_join_requests,
 )
 
@@ -42,5 +43,10 @@ urlpatterns = [
         "tournament-judges/",
         TournamentJudgesList.as_view(),
         name="Tournament judges list",
+    ),
+    path(
+        "tournament-team-invitations/",
+        UserTournamentTeamInvitationList.as_view(),
+        name="User tournament team invitation list",
     ),
 ]
