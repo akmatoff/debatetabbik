@@ -11,6 +11,7 @@ class Tournament(models.Model):
     owner = models.ForeignKey(
         User, related_name="tournaments", on_delete=models.PROTECT
     )
+    is_approved = models.BooleanField(default=False)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
     created = models.DateTimeField(default=timezone.now)

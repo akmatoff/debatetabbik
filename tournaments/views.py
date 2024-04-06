@@ -1,6 +1,8 @@
 from rest_framework import generics, permissions, status
 from rest_framework.views import Response
 from rest_framework.decorators import api_view
+
+from tabber_api.utils import parse_bool_query_param
 from .serializers import (
     TournamentJudgePointSerializer,
     TournamentJudgeSerializer,
@@ -32,8 +34,27 @@ from .models import (
 class TournamentsList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
+
+    def get_queryset(self):
+        queryset = Tournament.objects.all()
+
+        is_approved = parse_bool_query_param(
+            self.request.query_params.get("is_approved")
+        )
+        all_tournaments = parse_bool_query_param(
+            self.request.query_params.get("all_tournaments")
+        )
+
+        queryset = queryset.filter(is_approved=True)
+
+        if is_approved is not None:
+            queryset = Tournament.objects.all().filter(is_approved=is_approved)
+
+        if all_tournaments:
+            queryset = Tournament.objects.all()
+
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
