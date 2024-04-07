@@ -5,7 +5,6 @@ from .models import User
 from .serializers import UserSerializer
 from clubs.models import Club
 from clubs.serializers import ClubSerializer
-from social_django.utils import load_strategy
 import requests
 
 

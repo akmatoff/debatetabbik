@@ -2,29 +2,35 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-
-schema_view = get_schema_view(
-    openapi.Info(title="Tabbik API", default_version="v1"),
-    public=True,
-    permission_classes=[permissions.AllowAny],
-)
+from drf_spectacular.views import SpectacularSwaggerView, SpectacularAPIView
 
 urlpatterns = (
     [
         path("admin/", admin.site.urls),
         re_path(r"^auth/", include("drf_social_oauth2.urls", namespace="drf")),
-        path("api/", include("users.urls")),
-        path("api/", include("clubs.urls")),
-        path("api/", include("tournaments.urls")),
-        path("api-auth/", include("rest_framework.urls")),
         path(
-            "swagger/",
-            schema_view.with_ui("swagger", cache_timeout=0),
-            name="schema-swagger-ui",
+            "api/",
+            include(
+                [
+                    path("schema/", SpectacularAPIView.as_view(), name="schema"),
+                    path(
+                        "schema/swagger-ui/",
+                        SpectacularSwaggerView.as_view(),
+                        name="swagger-ui",
+                    ),
+                    path("users/", include("users.urls", namespace="users")),
+                    path(
+                        "clubs/",
+                        include("clubs.urls", namespace="clubs"),
+                    ),
+                    path(
+                        "tournaments/",
+                        include("tournaments.urls", namespace="tournaments"),
+                    ),
+                ],
+            ),
         ),
+        path("api-auth/", include("rest_framework.urls")),
     ]
     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

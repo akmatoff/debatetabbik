@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "social_django",
     "drf_social_oauth2",
     "rest_framework",
-    "drf_yasg",
+    "drf_spectacular",
     "users",
     "clubs",
     "tournaments",
@@ -70,7 +70,8 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
         "drf_social_oauth2.authentication.SocialAuthentication",
-    )
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 ROOT_URLCONF = "tabber_api.urls"
@@ -189,8 +190,4 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 USE_X_FORWARDED_HOST = True
 USE_X_FORWARDED_PORT = True
 
-SWAGGER_SETTINGS = {
-    "SECURITY_DEFINITIONS": {
-        "Bearer": {"type": "apiKey", "name": "Authorization", "in": "header"},
-    }
-}
+SPECTACULAR_SETTINGS = {"SCHEMA_PATH_PREFIX": "/api"}
