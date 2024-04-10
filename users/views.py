@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions
 from rest_framework.views import APIView, Response, status
 from rest_framework.decorators import api_view
+from drf_spectacular.utils import extend_schema
 from .models import User
 from .serializers import UserSerializer
 from clubs.models import Club
@@ -23,6 +24,10 @@ class UserDetails(generics.RetrieveAPIView):
 
 
 class UserData(APIView):
+    @extend_schema(
+        responses={200: UserSerializer},
+        description="Get current user data",
+    )
     def get(self, request):
         user = request.user
 

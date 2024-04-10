@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, status
 from rest_framework.views import Response
 from rest_framework.decorators import api_view, permission_classes
+from drf_spectacular.utils import extend_schema
 from .models import Club, ClubJoinRequest
 from users.models import User
 from users.serializers import UserSerializer
@@ -150,6 +151,9 @@ def approve_club_join_request(request, pk):
 
 
 # @pk - club id
+@extend_schema(
+    responses={200: UserSerializer(many=True)}, description="Get list of club members"
+)
 @api_view(["GET"])
 @permission_classes([permissions.IsAuthenticated])
 def get_club_members(request, pk):
@@ -168,6 +172,10 @@ def get_club_members(request, pk):
 
 
 # @pk - club id
+@extend_schema(
+    responses={200: ClubJoinRequestSerializer(many=True)},
+    description="Club join request list",
+)
 @api_view(["GET"])
 @permission_classes([permissions.IsAuthenticated])
 def get_join_requests(request, pk):
