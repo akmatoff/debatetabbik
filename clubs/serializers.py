@@ -1,11 +1,19 @@
 from rest_framework import serializers
+from drf_spectacular.utils import extend_schema_serializer, OpenApiExample
+from users.models import User
 from .models import Club, ClubJoinRequest
 from users.serializers import UserSerializer
 
 
 class ClubSerializer(serializers.ModelSerializer):
     club_leader = UserSerializer(read_only=True)
-    club_leader_id = serializers.IntegerField(write_only=True)
+    club_leader_id = serializers.PrimaryKeyRelatedField(
+        required=False, queryset=User.objects.all()
+    )
+
+    is_join_requested = serializers.BooleanField(default=False, read_only=True)
+    is_join_request_approved = serializers.BooleanField(default=False, read_only=True)
+    members_count = serializers.IntegerField(read_only=True)
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -37,7 +45,10 @@ class ClubSerializer(serializers.ModelSerializer):
             "rating",
             "club_leader",
             "club_leader_id",
+            "members_count",
             "is_approved",
+            "is_join_requested",
+            "is_join_request_approved",
             "created",
             "updated",
         ]

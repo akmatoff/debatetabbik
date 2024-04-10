@@ -1,7 +1,7 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, serializers
 from rest_framework.views import APIView, Response, status
 from rest_framework.decorators import api_view
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, inline_serializer
 from .models import User
 from .serializers import UserSerializer
 from clubs.models import Club
@@ -25,7 +25,15 @@ class UserDetails(generics.RetrieveAPIView):
 
 class UserData(APIView):
     @extend_schema(
-        responses={200: UserSerializer},
+        responses={
+            "200": inline_serializer(
+                "userdata",
+                fields={
+                    "user": UserSerializer(),
+                    "club": ClubSerializer(allow_null=True),
+                },
+            )
+        },
         description="Get current user data",
     )
     def get(self, request):
@@ -34,9 +42,6 @@ class UserData(APIView):
         serializer = UserSerializer(user)
 
         user = request.user
-
-        print("USER")
-        print(user)
 
         social = user.social_auth.get(provider="google-oauth2")
 
@@ -47,11 +52,10 @@ class UserData(APIView):
 
         userdata = res.json()
 
-        user.avatar = userdata["picture"]
-        user.save()
+        if userdata["error"]["status"] == "SUCCESS":
+            user.avatar = userdata["picture"]
 
-        print("USERDATA")
-        print(userdata)
+            user.save()
 
         if user.club is not None:
             club = Club.objects.get(pk=user.club.id)

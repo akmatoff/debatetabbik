@@ -39,6 +39,21 @@ class ClubsList(generics.ListCreateAPIView):
 
         return context
 
+    def create(self, request, *args, **kwargs):
+        if request.user.club is not None:
+            return Response(
+                {"error": "You are already a member of a club"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return super().create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        club = serializer.save(club_leader=self.request.user)
+
+        self.request.user.club = club
+        self.request.user.save()
+
 
 class ClubDetails(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
